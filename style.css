@@ -1166,7 +1166,12 @@ body {
 /* ---- Success overlay ---- */
 .calc-success-overlay {
   position: fixed;
-  inset: 0;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%); /* Centers the box perfectly */
+  width: 90%;                        /* Responsive width for mobile */
+  max-width: 400px;                  /* Maximum width on larger screens */
+  height: auto;                      /* Scales to fit your content */
   background-color: rgba(255, 255, 255, 0.97);
   border-radius: 1rem;
   display: flex;
