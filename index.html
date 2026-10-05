@@ -1,0 +1,700 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Professional Pressure Washing Services | [Your Business Name] | Central Coast NSW</title>
+<meta name="description" content="Professional house, driveway, and roof pressure washing across the Central Coast, NSW. Fast, affordable, fully insured. Get a free quote today." />
+<link rel="canonical" href="https://www.yourbusiname.com.au/" />
+
+<!-- Open Graph tags: control how this page looks when shared on Facebook, etc. -->
+<meta property="og:type" content="website" />
+<meta property="og:title" content="Professional Pressure Washing Services | [Your Business Name]" />
+<meta property="og:description" content="We make your home look brand new again. Fast, affordable, and fully insured pressure washing across the Central Coast, NSW." />
+<meta property="og:url" content="https://www.yourbusiname.com.au/" />
+<meta property="og:image" content="https://www.yourbusiname.com.au/social-preview.jpg" />
+<meta property="og:locale" content="en_AU" />
+
+<!-- Structured data: tells Google this is a local business, so it can show
+     your hours, phone number, and service area directly in search results -->
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "HomeAndConstructionBusiness",
+  "name": "[Your Business Name]",
+  "image": "https://www.yourbusiname.com.au/social-preview.jpg",
+  "telephone": "+61485998427",
+  "priceRange": "$$",
+  "address": {
+    "@type": "PostalAddress",
+    "addressLocality": "Central Coast",
+    "addressRegion": "NSW",
+    "addressCountry": "AU"
+  },
+  "areaServed": ["Gosford", "Terrigal", "Woy Woy", "The Entrance", "Central Coast NSW"],
+  "openingHoursSpecification": [
+    { "@type": "OpeningHoursSpecification", "dayOfWeek": ["Monday","Tuesday","Wednesday","Thursday","Friday"], "opens": "07:00", "closes": "17:00" },
+    { "@type": "OpeningHoursSpecification", "dayOfWeek": ["Saturday"], "opens": "08:00", "closes": "14:00" }
+  ],
+  "url": "https://www.yourbusiname.com.au/",
+  "hasOfferCatalog": {
+    "@type": "OfferCatalog",
+    "name": "Pressure Washing Services",
+    "itemListElement": [
+      { "@type": "Offer", "itemOffered": { "@type": "Service", "name": "Concrete Driveway Cleaning" } },
+      { "@type": "Offer", "itemOffered": { "@type": "Service", "name": "Paver Driveway Cleaning" } },
+      { "@type": "Offer", "itemOffered": { "@type": "Service", "name": "Full House Exterior Wash" } },
+      { "@type": "Offer", "itemOffered": { "@type": "Service", "name": "Exterior Wall / Facade Wash" } },
+      { "@type": "Offer", "itemOffered": { "@type": "Service", "name": "Roof Soft Wash & Pressure Wash" } },
+      { "@type": "Offer", "itemOffered": { "@type": "Service", "name": "Commercial / Warehouse Floor Cleaning" } },
+      { "@type": "Offer", "itemOffered": { "@type": "Service", "name": "Deck & Outdoor Patio Cleaning" } },
+      { "@type": "Offer", "itemOffered": { "@type": "Service", "name": "Gutter Exterior & Debris Clean" } },
+      { "@type": "Offer", "itemOffered": { "@type": "Service", "name": "Solar Panel Cleaning" } },
+      { "@type": "Offer", "itemOffered": { "@type": "Service", "name": "Fence / Retaining Wall Clean" } }
+    ]
+  }
+}
+</script>
+
+<!-- Fonts: Sora for headings, Inter for body copy -->
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Sora:wght@600;700;800&display=swap" rel="stylesheet" />
+
+<!-- Our own stylesheet (plain CSS, no Tailwind) -->
+<link rel="stylesheet" href="style.css" />
+
+<!--
+  EmailJS: sends the customer's quote to their own inbox the moment they
+  submit the calculator form, with no backend server required.
+  SETUP NEEDED — see the "EMAILJS SETUP" comment in script.js for the
+  3 values you must fill in before this will actually send anything.
+-->
+<script src="https://cdn.jsdelivr.net/npm/@emailjs/browser@4/dist/email.min.js"></script>
+</head>
+
+<body>
+
+  <!-- =========================================================
+       HEADER
+       Edit "[Your Business Name]" and the phone number below.
+       Both the visible phone text AND the tel: link need updating.
+  ========================================================== -->
+  <header class="site-header">
+    <div class="container">
+      <div class="header-row">
+
+        <!-- Business name / logo -->
+        <a href="#top" class="logo">
+          [Your Business Name]
+        </a>
+
+        <!-- Right side: phone + CTA -->
+        <div class="header-actions">
+          <a href="tel:+61485998427" class="phone-link">
+            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" class="icon icon-sm">
+              <path d="M4 4h4l2 5-2.5 1.5a11 11 0 0 0 5 5L14 13l5 2v4a2 2 0 0 1-2 2A16 16 0 0 1 2 6a2 2 0 0 1 2-2Z"/>
+            </svg>
+            <span>Call Us: 0485 998 427</span>
+          </a>
+
+          <!-- Phone-only tap target for mobile -->
+          <a href="tel:+61485998427" aria-label="Call us" class="phone-link-mobile">
+            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" class="icon icon-sm">
+              <path d="M4 4h4l2 5-2.5 1.5a11 11 0 0 0 5 5L14 13l5 2v4a2 2 0 0 1-2 2A16 16 0 0 1 2 6a2 2 0 0 1 2-2Z"/>
+            </svg>
+          </a>
+
+          <a href="#contact" id="openCalcHeader" class="btn btn-orange btn-header" aria-haspopup="dialog" aria-controls="calcOverlay">
+            Get a Free Quote
+          </a>
+        </div>
+      </div>
+    </div>
+  </header>
+
+  <main id="top">
+
+    <!-- =========================================================
+         HERO
+    ========================================================== -->
+    <section class="hero">
+      <div class="container hero-inner">
+        <h1 class="hero-title">
+          Professional Pressure Washing Services
+        </h1>
+        <p class="hero-subtitle">
+          We make your home look brand new again. Fast, affordable, and fully insured.
+        </p>
+        <div class="hero-cta-wrap">
+          <a href="#contact" id="openCalcHero" class="btn btn-orange btn-hero" aria-haspopup="dialog" aria-controls="calcOverlay">
+            Book Your Wash
+          </a>
+        </div>
+
+        <!-- Trust strip -->
+        <div class="trust-strip">
+          <span class="trust-item">
+            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="icon icon-sm trust-icon"><path d="M20 6 9 17l-5-5"/></svg>
+            Fully Insured
+          </span>
+          <span class="trust-item">
+            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="icon icon-sm trust-icon"><path d="M20 6 9 17l-5-5"/></svg>
+            Free, No-Obligation Quotes
+          </span>
+          <span class="trust-item">
+            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="icon icon-sm trust-icon"><path d="M20 6 9 17l-5-5"/></svg>
+            Locally Owned, Central Coast
+          </span>
+        </div>
+      </div>
+
+      <!-- Wave divider into next section -->
+      <svg class="hero-wave" viewBox="0 0 1440 80" preserveAspectRatio="none" xmlns="http://www.w3.org/2000/svg">
+        <path fill="currentColor" d="M0,32 C240,80 480,80 720,48 C960,16 1200,16 1440,48 L1440,80 L0,80 Z"></path>
+      </svg>
+    </section>
+
+    <!-- =========================================================
+         SERVICES
+    ========================================================== -->
+    <section class="services">
+      <div class="container">
+        <div class="section-heading">
+          <h2 class="section-title">What We Clean</h2>
+          <p class="section-subtitle">Three services, one crew — everything your property needs to look its best.</p>
+        </div>
+
+        <div class="grid-3">
+
+          <!-- Card 1: House Washing -->
+          <div class="service-card">
+            <div class="service-icon-wrap">
+              <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" class="icon icon-lg">
+                <path d="M3 11.5 12 4l9 7.5"/>
+                <path d="M5.5 9.5V20a1 1 0 0 0 1 1H10v-5.5h4V21h3.5a1 1 0 0 0 1-1V9.5"/>
+              </svg>
+            </div>
+            <h3 class="service-title">House Washing</h3>
+            <p class="service-desc">
+              Soft-wash cleaning that lifts dirt, mould, and grime from siding, brick, and render — without damaging paint or surfaces.
+            </p>
+          </div>
+
+          <!-- Card 2: Driveway & Concrete -->
+          <div class="service-card">
+            <div class="service-icon-wrap">
+              <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" class="icon icon-lg">
+                <rect x="3" y="4" width="8" height="8" rx="1"/>
+                <rect x="13" y="4" width="8" height="8" rx="1"/>
+                <rect x="3" y="14" width="8" height="6" rx="1"/>
+                <rect x="13" y="14" width="8" height="6" rx="1"/>
+              </svg>
+            </div>
+            <h3 class="service-title">Driveway &amp; Concrete</h3>
+            <p class="service-desc">
+              High-pressure surface cleaning for driveways, pathways, and paved areas — removing oil stains, moss, and years of built-up grime.
+            </p>
+          </div>
+
+          <!-- Card 3: Roof & Gutter Cleaning -->
+          <div class="service-card">
+            <div class="service-icon-wrap">
+              <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" class="icon icon-lg">
+                <path d="M2.5 10 12 4l9.5 6"/>
+                <path d="M4 10.5v1.5h16v-1.5"/>
+                <path d="M7 16.5v1.5M12 16.5v2.5M17 16.5v1.5"/>
+              </svg>
+            </div>
+            <h3 class="service-title">Roof &amp; Gutter Cleaning</h3>
+            <p class="service-desc">
+              Safe, careful removal of moss, lichen, and debris from roofs and gutters — protecting your home from water damage year-round.
+            </p>
+          </div>
+
+        </div>
+      </div>
+    </section>
+
+    <!-- =========================================================
+         BEFORE / AFTER
+         Drag the handle to compare. Swap the two gradient panels
+         below for your own real "before" and "after" photos when
+         you have them — see the comments marked PHOTO GOES HERE.
+    ========================================================== -->
+    <section class="before-after">
+      <div class="container">
+        <div class="section-heading section-heading--tight">
+          <h2 class="section-title">See the Difference</h2>
+          <p class="section-subtitle">Drag the slider to see a driveway before and after our clean.</p>
+        </div>
+
+        <div class="ba-frame" id="baSlider">
+
+          <!-- AFTER layer (fills the whole frame) -->
+          <div class="ba-layer ba-after">
+            <!-- PHOTO GOES HERE: replace this div's background with your real "after" photo -->
+            <span class="ba-badge ba-badge-after">AFTER</span>
+            <div class="ba-after-texture"></div>
+          </div>
+
+          <!-- BEFORE layer (clipped to slider width) -->
+          <div class="ba-before" id="baBefore">
+            <div class="ba-before-bg">
+              <!-- PHOTO GOES HERE: replace this div's background with your real "before" photo -->
+              <div class="ba-before-texture"></div>
+            </div>
+            <span class="ba-badge ba-badge-before">BEFORE</span>
+          </div>
+
+          <!-- Handle -->
+          <div id="baHandle" class="ba-handle">
+            <div class="ba-handle-line"></div>
+            <div class="ba-handle-circle">
+              <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="icon icon-sm">
+                <path d="M8 8l-4 4 4 4"/>
+                <path d="M16 8l4 4-4 4"/>
+              </svg>
+            </div>
+          </div>
+
+          <!-- Actual control (invisible, spans the whole frame) -->
+          <input type="range" min="0" max="100" value="50" id="baRange"
+                 class="ba-range"
+                 aria-label="Drag to compare before and after" />
+        </div>
+      </div>
+    </section>
+
+    <!-- =========================================================
+         TESTIMONIALS
+         Swap in real customer reviews and names as you collect them.
+    ========================================================== -->
+    <section class="testimonials">
+      <div class="container">
+        <div class="section-heading">
+          <h2 class="section-title">What Our Customers Say</h2>
+          <p class="section-subtitle">Real feedback from homes and businesses across the Central Coast.</p>
+        </div>
+
+        <div class="grid-3">
+
+          <!-- Review 1 -->
+          <div class="testimonial-card">
+            <div class="stars" aria-label="5 out of 5 stars">
+              <svg viewBox="0 0 20 20" fill="currentColor" class="icon icon-sm"><path d="M10 1.5l2.6 5.6 6.1.6-4.6 4.1 1.3 6-5.4-3.1L4.6 18l1.3-6L1.3 7.7l6.1-.6z"/></svg>
+              <svg viewBox="0 0 20 20" fill="currentColor" class="icon icon-sm"><path d="M10 1.5l2.6 5.6 6.1.6-4.6 4.1 1.3 6-5.4-3.1L4.6 18l1.3-6L1.3 7.7l6.1-.6z"/></svg>
+              <svg viewBox="0 0 20 20" fill="currentColor" class="icon icon-sm"><path d="M10 1.5l2.6 5.6 6.1.6-4.6 4.1 1.3 6-5.4-3.1L4.6 18l1.3-6L1.3 7.7l6.1-.6z"/></svg>
+              <svg viewBox="0 0 20 20" fill="currentColor" class="icon icon-sm"><path d="M10 1.5l2.6 5.6 6.1.6-4.6 4.1 1.3 6-5.4-3.1L4.6 18l1.3-6L1.3 7.7l6.1-.6z"/></svg>
+              <svg viewBox="0 0 20 20" fill="currentColor" class="icon icon-sm"><path d="M10 1.5l2.6 5.6 6.1.6-4.6 4.1 1.3 6-5.4-3.1L4.6 18l1.3-6L1.3 7.7l6.1-.6z"/></svg>
+            </div>
+            <p class="testimonial-quote">"Our driveway hadn't been cleaned in years — it looks brand new. Turned up on time and left the place spotless."</p>
+            <p class="testimonial-author">Sarah M. <span class="testimonial-location">— Terrigal</span></p>
+          </div>
+
+          <!-- Review 2 -->
+          <div class="testimonial-card">
+            <div class="stars" aria-label="5 out of 5 stars">
+              <svg viewBox="0 0 20 20" fill="currentColor" class="icon icon-sm"><path d="M10 1.5l2.6 5.6 6.1.6-4.6 4.1 1.3 6-5.4-3.1L4.6 18l1.3-6L1.3 7.7l6.1-.6z"/></svg>
+              <svg viewBox="0 0 20 20" fill="currentColor" class="icon icon-sm"><path d="M10 1.5l2.6 5.6 6.1.6-4.6 4.1 1.3 6-5.4-3.1L4.6 18l1.3-6L1.3 7.7l6.1-.6z"/></svg>
+              <svg viewBox="0 0 20 20" fill="currentColor" class="icon icon-sm"><path d="M10 1.5l2.6 5.6 6.1.6-4.6 4.1 1.3 6-5.4-3.1L4.6 18l1.3-6L1.3 7.7l6.1-.6z"/></svg>
+              <svg viewBox="0 0 20 20" fill="currentColor" class="icon icon-sm"><path d="M10 1.5l2.6 5.6 6.1.6-4.6 4.1 1.3 6-5.4-3.1L4.6 18l1.3-6L1.3 7.7l6.1-.6z"/></svg>
+              <svg viewBox="0 0 20 20" fill="currentColor" class="icon icon-sm"><path d="M10 1.5l2.6 5.6 6.1.6-4.6 4.1 1.3 6-5.4-3.1L4.6 18l1.3-6L1.3 7.7l6.1-.6z"/></svg>
+            </div>
+            <p class="testimonial-quote">"Booked a quote online and had someone out within the week. Fair price and great communication the whole way through."</p>
+            <p class="testimonial-author">Daniel R. <span class="testimonial-location">— Gosford</span></p>
+          </div>
+
+          <!-- Review 3 -->
+          <div class="testimonial-card">
+            <div class="stars" aria-label="5 out of 5 stars">
+              <svg viewBox="0 0 20 20" fill="currentColor" class="icon icon-sm"><path d="M10 1.5l2.6 5.6 6.1.6-4.6 4.1 1.3 6-5.4-3.1L4.6 18l1.3-6L1.3 7.7l6.1-.6z"/></svg>
+              <svg viewBox="0 0 20 20" fill="currentColor" class="icon icon-sm"><path d="M10 1.5l2.6 5.6 6.1.6-4.6 4.1 1.3 6-5.4-3.1L4.6 18l1.3-6L1.3 7.7l6.1-.6z"/></svg>
+              <svg viewBox="0 0 20 20" fill="currentColor" class="icon icon-sm"><path d="M10 1.5l2.6 5.6 6.1.6-4.6 4.1 1.3 6-5.4-3.1L4.6 18l1.3-6L1.3 7.7l6.1-.6z"/></svg>
+              <svg viewBox="0 0 20 20" fill="currentColor" class="icon icon-sm"><path d="M10 1.5l2.6 5.6 6.1.6-4.6 4.1 1.3 6-5.4-3.1L4.6 18l1.3-6L1.3 7.7l6.1-.6z"/></svg>
+              <svg viewBox="0 0 20 20" fill="currentColor" class="icon icon-sm"><path d="M10 1.5l2.6 5.6 6.1.6-4.6 4.1 1.3 6-5.4-3.1L4.6 18l1.3-6L1.3 7.7l6.1-.6z"/></svg>
+            </div>
+            <p class="testimonial-quote">"Gutters were overflowing every time it rained. Cleared them out and checked the roof too — no more overflow."</p>
+            <p class="testimonial-author">Priya K. <span class="testimonial-location">— Woy Woy</span></p>
+          </div>
+
+        </div>
+      </div>
+    </section>
+
+    <!-- =========================================================
+         CONTACT / FOOTER
+    ========================================================== -->
+    <section id="contact" class="contact">
+      <div class="container">
+        <div class="contact-grid">
+
+          <!-- Quote calculator launcher (replaces the old static form —
+               the real form now lives inside the calculator modal, which
+               collects everything needed: service, scope, condition,
+               access, and contact details, then emails the customer a
+               detailed quote). -->
+          <div class="contact-form-col">
+            <h2 class="contact-form-title">Get Your Free Quote</h2>
+            <p class="contact-form-desc">Answer a few quick questions and get an instant price estimate, emailed straight to you — no waiting required.</p>
+            <button type="button" id="openCalcContact" class="btn btn-orange btn-form" aria-haspopup="dialog" aria-controls="calcOverlay">
+              Get My Instant Quote
+            </button>
+          </div>
+
+          <!-- Hours + contact details -->
+          <div class="contact-info-col">
+            <h3 class="info-title">Business Hours</h3>
+            <ul class="hours-list">
+              <li class="hours-row"><span>Monday – Friday</span><span>7:00 AM – 5:00 PM</span></li>
+              <li class="hours-row"><span>Saturday</span><span>8:00 AM – 2:00 PM</span></li>
+              <li class="hours-row"><span>Sunday</span><span>Closed</span></li>
+            </ul>
+
+            <h3 class="info-title">Get In Touch</h3>
+            <ul class="contact-list">
+              <li class="contact-item">
+                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" class="icon icon-sm contact-icon">
+                  <path d="M4 4h4l2 5-2.5 1.5a11 11 0 0 0 5 5L14 13l5 2v4a2 2 0 0 1-2 2A16 16 0 0 1 2 6a2 2 0 0 1 2-2Z"/>
+                </svg>
+                <a href="tel:+61485998427" class="contact-link">0485 998 427</a>
+              </li>
+              <li class="contact-item">
+                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" class="icon icon-sm contact-icon">
+                  <path d="M3 6h18v12H3z"/><path d="M3 7l9 6 9-6"/>
+                </svg>
+                <a href="mailto:hello@yourbusiness.com.au" class="contact-link">hello@yourbusiness.com.au</a>
+              </li>
+              <li class="contact-item">
+                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" class="icon icon-sm contact-icon">
+                  <path d="M12 22s7-6.1 7-12a7 7 0 1 0-14 0c0 5.9 7 12 7 12Z"/><circle cx="12" cy="10" r="2.5"/>
+                </svg>
+                <span>Serving Gosford, Terrigal, Woy Woy &amp; the wider Central Coast, NSW</span>
+              </li>
+            </ul>
+
+            <div class="social-row">
+              <a href="#" aria-label="Facebook" class="social-btn">
+                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" class="icon icon-xs"><path d="M15 8h2V5h-2c-2.2 0-4 1.8-4 4v2H9v3h2v7h3v-7h2.2l.8-3H14V9c0-.6.4-1 1-1Z"/></svg>
+              </a>
+              <a href="#" aria-label="Instagram" class="social-btn">
+                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" class="icon icon-xs"><rect x="3" y="3" width="18" height="18" rx="5"/><circle cx="12" cy="12" r="4"/><circle cx="17.5" cy="6.5" r="1"/></svg>
+              </a>
+            </div>
+          </div>
+
+        </div>
+
+        <div class="footer-bottom">
+          © 2026 [Your Business Name]. All rights reserved.
+        </div>
+      </div>
+    </section>
+
+  </main>
+
+  <!-- =========================================================
+       QUOTE CALCULATOR (modal overlay)
+       Hidden by default (the "hidden" attribute). Opened by the
+       header "Get a Free Quote" button, the hero "Book Your Wash"
+       button, and the "Get My Instant Quote" button in the contact
+       section — all three just call openCalculator() in script.js.
+  ========================================================== -->
+  <div id="calcOverlay" class="calc-overlay" hidden>
+    <div class="calc-modal" role="dialog" aria-modal="true" aria-labelledby="calcTitle">
+
+      <!-- Calculator header -->
+      <div class="calc-header">
+        <div class="calc-header-brand">
+          <div class="calc-header-icon" aria-hidden="true">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" class="icon icon-lg">
+              <rect x="7" y="8" width="7" height="13" rx="1"/><path d="M9 8V5a1 1 0 0 1 1-1h1a1 1 0 0 1 1 1v3"/><path d="M11 3V2"/><path d="M17 7l1.5-1.5M19 11h2M17 15l1.5 1.5"/>
+            </svg>
+          </div>
+          <div>
+            <h2 id="calcTitle" class="calc-title">Instant Pressure Wash Calculator</h2>
+            <p class="calc-subtitle">Accurate Central Coast market rates &amp; instant estimates</p>
+          </div>
+        </div>
+        <div class="calc-gst-badge">GST Inclusive &amp; Fair Pricing Standard</div>
+        <button type="button" id="calcCloseBtn" class="calc-close" aria-label="Close calculator">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="icon icon-sm"><path d="M6 6l12 12M18 6 6 18"/></svg>
+        </button>
+      </div>
+
+      <!-- Step progress bar -->
+      <div class="calc-progress">
+        <div id="tab-step-1" class="step-indicator is-current">
+          <span class="step-dot">1</span><span class="step-label">Service &amp; Area</span>
+        </div>
+        <div class="step-line"></div>
+        <div id="tab-step-2" class="step-indicator">
+          <span class="step-dot">2</span><span class="step-label">Condition &amp; Access</span>
+        </div>
+        <div class="step-line"></div>
+        <div id="tab-step-3" class="step-indicator">
+          <span class="step-dot">3</span><span class="step-label">Estimate &amp; Book</span>
+        </div>
+      </div>
+
+      <!-- Calculator body -->
+      <div class="calc-body">
+
+        <!-- STEP 1: SERVICE & DIMENSIONS -->
+        <div id="step-1" class="step-panel is-active">
+          <h3 class="calc-step-title">Select Cleaning Service</h3>
+          <p class="calc-step-desc">Choose the primary service area you need professionally washed.</p>
+
+          <div class="services-grid" id="servicesGrid" role="radiogroup" aria-label="Choose a cleaning service">
+            <!-- Rendered by script.js -->
+          </div>
+
+          <div id="serviceInfoBox" class="calc-info-box">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" class="icon icon-sm calc-info-icon" aria-hidden="true"><circle cx="12" cy="12" r="9"/><path d="M12 11v5M12 8v.01" stroke-linecap="round"/></svg>
+            <div>
+              <span id="serviceInfoTitle" class="calc-info-title">Service Info</span>
+              <span id="serviceInfoText" class="calc-info-text">Select a service above to view details.</span>
+            </div>
+          </div>
+
+          <div class="calc-dimension-box">
+            <div class="calc-dimension-head">
+              <label id="dimensionLabel" for="areaInput" class="calc-dimension-label">Total Surface Area (m²)</label>
+              <div class="calc-dimension-field">
+                <input type="number" id="areaInput" min="1" max="2000" value="50" class="calc-number-input" aria-describedby="unitTag" />
+                <span id="unitTag" class="calc-unit-tag">m²</span>
+              </div>
+            </div>
+
+            <div id="sliderContainer">
+              <label for="areaSlider" class="sr-only">Adjust area or quantity</label>
+              <input type="range" id="areaSlider" min="10" max="300" step="5" value="50" class="calc-range" />
+              <div class="calc-slider-minmax">
+                <span id="sliderMin">10 m²</span>
+                <span id="sliderMax">300 m²</span>
+              </div>
+            </div>
+
+            <div class="calc-preset-row">
+              <span class="calc-preset-label">Quick presets:</span>
+              <div id="presetButtons" class="calc-preset-buttons"><!-- Populated by script.js --></div>
+            </div>
+          </div>
+
+          <div class="calc-nav calc-nav-end">
+            <button type="button" onclick="goToStep(2)" class="btn btn-orange btn-calc">
+              Next: Condition &amp; Access
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="icon icon-sm"><path d="M5 12h14M13 6l6 6-6 6"/></svg>
+            </button>
+          </div>
+        </div>
+
+        <!-- STEP 2: CONDITION & ACCESS -->
+        <div id="step-2" class="step-panel">
+          <h3 class="calc-step-title">Surface Condition &amp; Site Access</h3>
+          <p class="calc-step-desc">Select the level of contamination and height difficulty for an accurate estimate.</p>
+
+          <div class="calc-options-grid">
+            <fieldset class="calc-option-group">
+              <legend class="calc-option-legend">Contamination &amp; Soiling Level</legend>
+              <label class="calc-option-card">
+                <input type="radio" name="soiling" value="1.0" checked onchange="calculateQuote()">
+                <span class="calc-option-text">
+                  <span class="calc-option-title">Light / Standard Dirt &amp; Dust</span>
+                  <span class="calc-option-desc">General weathering, light dust, recent residue. (1.0x)</span>
+                </span>
+              </label>
+              <label class="calc-option-card">
+                <input type="radio" name="soiling" value="1.15" onchange="calculateQuote()">
+                <span class="calc-option-text">
+                  <span class="calc-option-title">Moderate Mould, Algae &amp; Cobwebs</span>
+                  <span class="calc-option-desc">Green moss, dark mould growth, persistent grime (+15%).</span>
+                </span>
+              </label>
+              <label class="calc-option-card">
+                <input type="radio" name="soiling" value="1.30" onchange="calculateQuote()">
+                <span class="calc-option-text">
+                  <span class="calc-option-title">Severe Stain, Heavy Oil &amp; Grease</span>
+                  <span class="calc-option-desc">Deep oil spills, rust stains, thick lichen (+30% + $35 chem treat).</span>
+                </span>
+              </label>
+            </fieldset>
+
+            <fieldset class="calc-option-group">
+              <legend class="calc-option-legend">Height &amp; Accessibility</legend>
+              <label class="calc-option-card">
+                <input type="radio" name="access" value="1.0" checked onchange="calculateQuote()">
+                <span class="calc-option-text">
+                  <span class="calc-option-title">Easy Ground Level Access</span>
+                  <span class="calc-option-desc">Single storey, flat ground, clear hose run. (1.0x)</span>
+                </span>
+              </label>
+              <label class="calc-option-card">
+                <input type="radio" name="access" value="1.20" onchange="calculateQuote()">
+                <span class="calc-option-text">
+                  <span class="calc-option-title">Multi-storey / Steep / Restricted</span>
+                  <span class="calc-option-desc">Requires ladders, high extension poles, tight pathways (+20%).</span>
+                </span>
+              </label>
+
+              <div class="calc-safety-note">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" class="icon icon-sm" aria-hidden="true"><path d="M12 3 4 6v6c0 4.5 3.4 7.7 8 9 4.6-1.3 8-4.5 8-9V6l-8-3Z"/></svg>
+                <span><strong>Soft Wash Safety Standard:</strong> Delicate surfaces (render, timber, solar panels) are cleaned using low-pressure chemical soft washing to prevent damage.</span>
+              </div>
+            </fieldset>
+          </div>
+
+          <div class="calc-nav calc-nav-between">
+            <button type="button" onclick="goToStep(1)" class="btn btn-slate btn-calc">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="icon icon-sm"><path d="M19 12H5M11 18l-6-6 6-6"/></svg>
+              Back
+            </button>
+            <button type="button" onclick="goToStep(3)" class="btn btn-orange btn-calc">
+              View Quote &amp; Book
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="icon icon-sm"><path d="M5 12h14M13 6l6 6-6 6"/></svg>
+            </button>
+          </div>
+        </div>
+
+        <!-- STEP 3: ESTIMATE & BOOKING -->
+        <div id="step-3" class="step-panel">
+          <div class="calc-summary-layout">
+
+            <!-- Quote summary card -->
+            <div class="calc-summary-card">
+              <div>
+                <div class="calc-summary-head">
+                  <span class="calc-summary-eyebrow">Estimated Investment</span>
+                  <span class="calc-summary-pill">Central Coast Market Rate</span>
+                </div>
+
+                <div class="calc-price-block">
+                  <div class="calc-price-label">Average estimated cost:</div>
+                  <div class="calc-price-row">
+                    <span id="quoteAvgPrice" class="calc-price-value">$0.00</span>
+                    <span class="calc-price-suffix">AUD (inc. GST)</span>
+                  </div>
+                </div>
+
+                <div id="minCalloutBadge" class="calc-min-badge" hidden>
+                  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" class="icon icon-sm" aria-hidden="true"><path d="M12 3 2 20h20L12 3Z"/><path d="M12 10v4M12 17v.01"/></svg>
+                  <span>Minimum call-out fee of <strong id="minFeeVal">$150</strong> applied for this service.</span>
+                </div>
+
+                <div class="calc-range-block">
+                  <div>
+                    <span class="calc-range-label">Low estimate</span>
+                    <span id="quoteLowPrice" class="calc-range-value">$0.00</span>
+                  </div>
+                  <div>
+                    <span class="calc-range-label">High estimate</span>
+                    <span id="quoteHighPrice" class="calc-range-value">$0.00</span>
+                  </div>
+                </div>
+
+                <div class="calc-line-items">
+                  <div class="calc-line"><span>Selected service:</span><span id="summaryServiceName" class="calc-line-value">—</span></div>
+                  <div class="calc-line"><span>Quantity / scope:</span><span id="summaryScope" class="calc-line-value">—</span></div>
+                  <div class="calc-line"><span>Est. job duration:</span><span id="summaryDuration" class="calc-line-value">—</span></div>
+                  <div class="calc-line"><span>GST (10% included):</span><span id="summaryGST" class="calc-line-value">$0.00</span></div>
+                </div>
+              </div>
+
+              <div class="calc-disclaimer">
+                Estimate based on standard Central Coast high-pressure washing market rates. Final price confirmed upon physical on-site inspection.
+              </div>
+            </div>
+
+            <!-- Lead capture form -->
+            <div class="calc-form-card">
+              <div class="calc-form-head">
+                <h3 class="calc-step-title calc-step-title--tight">Lock In Your Estimate &amp; Book an Inspection</h3>
+                <span class="calc-form-note">No-obligation quote</span>
+              </div>
+
+              <form id="bookingForm" class="calc-form" novalidate>
+                <div class="calc-form-row">
+                  <div>
+                    <label for="custName" class="calc-form-label">Full Name *</label>
+                    <input type="text" id="custName" name="custName" required autocomplete="name" placeholder="e.g. John Smith" class="calc-form-input" />
+                  </div>
+                  <div>
+                    <label for="custPhone" class="calc-form-label">Phone Number *</label>
+                    <input type="tel" id="custPhone" name="custPhone" required autocomplete="tel" placeholder="e.g. 0412 345 678" class="calc-form-input" />
+                  </div>
+                </div>
+                <div class="calc-form-row">
+                  <div>
+                    <label for="custEmail" class="calc-form-label">Email Address *</label>
+                    <input type="email" id="custEmail" name="custEmail" required autocomplete="email" placeholder="e.g. john@example.com.au" class="calc-form-input" />
+                  </div>
+                  <div>
+                    <label for="custSuburb" class="calc-form-label">Suburb / Postcode *</label>
+                    <input type="text" id="custSuburb" name="custSuburb" required autocomplete="address-level2" placeholder="e.g. Gosford 2250" class="calc-form-input" />
+                  </div>
+                </div>
+                <div>
+                  <label for="custDate" class="calc-form-label">Preferred Service Date</label>
+                  <input type="date" id="custDate" name="custDate" class="calc-form-input" />
+                </div>
+                <div>
+                  <label for="custNotes" class="calc-form-label">Notes / Property Details (optional)</label>
+                  <textarea id="custNotes" name="custNotes" rows="2" placeholder="Stubborn stains, steep driveways, water access details..." class="calc-form-input"></textarea>
+                </div>
+
+                <div class="calc-nav calc-nav-between calc-nav-form">
+                  <button type="button" onclick="goToStep(2)" class="btn btn-slate btn-calc">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="icon icon-sm"><path d="M19 12H5M11 18l-6-6 6-6"/></svg>
+                    Edit Details
+                  </button>
+                  <button type="submit" id="submitQuoteBtn" class="btn btn-orange btn-calc">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" class="icon icon-sm"><path d="M21 3 11 13"/><path d="M21 3 14.5 21l-3.5-8-8-3.5L21 3Z"/></svg>
+                    <span id="submitQuoteBtnText">Lock In Estimate &amp; Send</span>
+                  </button>
+                </div>
+              </form>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- SUCCESS STATE -->
+      <div id="successOverlay" class="calc-success-overlay" hidden>
+        <div class="calc-success-card">
+          <div class="calc-success-icon" aria-hidden="true">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" class="icon icon-lg"><circle cx="12" cy="12" r="9"/><path d="m8.5 12.5 2.5 2.5 4.5-5"/></svg>
+          </div>
+          <h3 class="calc-success-title">Your quote has been sent to your email!</h3>
+          <p class="calc-success-desc">A member of our team will call you shortly to confirm your booking.</p>
+
+          <div class="calc-success-details">
+            <div class="calc-line"><span>Reference #:</span><span id="resRefNum" class="calc-line-value">—</span></div>
+            <div class="calc-line"><span>Service:</span><span id="resService" class="calc-line-value">—</span></div>
+            <div class="calc-line"><span>Estimated total:</span><span id="resEstimate" class="calc-line-value calc-line-value--accent">—</span></div>
+          </div>
+
+          <div class="calc-success-actions">
+            <button type="button" onclick="copyQuoteSummary()" class="btn btn-slate-dark btn-calc">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" class="icon icon-sm"><rect x="9" y="9" width="11" height="11" rx="1.5"/><path d="M5 15V5a1 1 0 0 1 1-1h10"/></svg>
+              Copy Quote
+            </button>
+            <button type="button" onclick="resetCalculator()" class="btn btn-orange btn-calc">
+              Calculate New Quote
+            </button>
+          </div>
+        </div>
+      </div>
+
+      <!-- Toast -->
+      <div id="copyToast" class="calc-toast" role="status" aria-live="polite">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" class="icon icon-sm"><path d="M5 12l5 5L19 7"/></svg>
+        Quote copied to clipboard!
+      </div>
+
+    </div>
+  </div>
+
+  <script src="script.js"></script>
+
+</body>
+</html>
