@@ -142,7 +142,7 @@ const SERVICES_DATA = {
     desc: 'Prepares timber decks and stone patios for sealing or restaining.'
   },
   gutter_clean: {
-    unavailable: false,
+    unavailable: true,
     name: 'Gutter Exterior & Debris Clean', unit: 'lm', basePrice: 6.00, minPrice: 150.00, icon: 'droplet',
     presets: [30, 50, 80], presetLabels: ['30 Linear m', '50 Linear m', '80 Linear m'],
     sliderRange: [10, 150, 5],
