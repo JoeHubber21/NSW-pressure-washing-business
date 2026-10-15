@@ -93,66 +93,75 @@ function iconSvg(name, cls) {
 // =============================================================
 const SERVICES_DATA = {
   driveway_concrete: {
+    unavailable: false,
     name: 'Concrete Driveway Cleaning', unit: 'm²', basePrice: 5.00, minPrice: 150.00, icon: 'car',
     presets: [30, 50, 90], presetLabels: ['Small (30m²)', 'Standard (50m²)', 'Large (90m²)'],
     sliderRange: [10, 200, 5],
     desc: 'High-pressure surface cleaner application for dirt, tyre marks, and general grime.'
   },
   driveway_paver: {
+    unavailable: false,
     name: 'Paver Driveway Cleaning', unit: 'm²', basePrice: 6.50, minPrice: 150.00, icon: 'grid',
     presets: [30, 50, 80], presetLabels: ['Small (30m²)', 'Standard (50m²)', 'Large (80m²)'],
     sliderRange: [10, 200, 5],
     desc: 'Deep paver gap cleaning to remove moss, weeds, and embedded silt.'
   },
   house_wash: {
+    unavailable: false,
     name: 'Full House Exterior Wash', unit: 'storey', basePrice: 340.00, isFlatRate: true,
     doubleStoreyPrice: 520.00, minPrice: 340.00, icon: 'house',
     presets: [1, 2], presetLabels: ['Single Storey', 'Double Storey'], sliderRange: [1, 2, 1],
     desc: 'Low-pressure soft wash protecting paintwork, timber weatherboards, and render.'
   },
   facade_wall: {
+    unavailable: false,
     name: 'Exterior Wall / Facade Wash', unit: 'm²', basePrice: 3.50, minPrice: 150.00, icon: 'building',
     presets: [50, 100, 150], presetLabels: ['Small (50m²)', 'Medium (100m²)', 'Large (150m²)'],
     sliderRange: [20, 300, 10],
     desc: 'Removes web buildup, dust, and mould from brickwork, stucco, or cladding.'
   },
   roof_clean: {
+    unavailable: false,
     name: 'Roof Soft Wash & Pressure Wash', unit: 'm²', basePrice: 2.50, minPrice: 300.00, icon: 'roof',
     presets: [120, 180, 250], presetLabels: ['Small (120m²)', 'Medium (180m²)', 'Large (250m²)'],
     sliderRange: [50, 400, 10],
     desc: 'Eliminates moss, lichen, and black algae on tile or Colorbond roofs.'
   },
   commercial_floor: {
+    unavailable: false,
     name: 'Commercial / Warehouse Floor', unit: 'm²', basePrice: 1.20, minPrice: 300.00, icon: 'warehouse',
     presets: [200, 500, 1000], presetLabels: ['200m²', '500m²', '1000m²'],
     sliderRange: [100, 2000, 50],
     desc: 'Industrial floor degreasing and large-scale hardstand pressure washing.'
   },
   deck_patio: {
+    unavailable: false,
     name: 'Deck & Outdoor Patio Cleaning', unit: 'm²', basePrice: 4.50, minPrice: 150.00, icon: 'chair',
     presets: [25, 45, 70], presetLabels: ['Patio (25m²)', 'Deck (45m²)', 'Large (70m²)'],
     sliderRange: [10, 150, 5],
     desc: 'Prepares timber decks and stone patios for sealing or restaining.'
   },
   gutter_clean: {
+    unavailable: false,
     name: 'Gutter Exterior & Debris Clean', unit: 'lm', basePrice: 6.00, minPrice: 150.00, icon: 'droplet',
     presets: [30, 50, 80], presetLabels: ['30 Linear m', '50 Linear m', '80 Linear m'],
     sliderRange: [10, 150, 5],
     desc: 'Debris clearing plus high-pressure washing of gutter face and downpipes.'
   },
   solar_panels: {
+    unavailable: true,
     name: 'Solar Panel Cleaning', unit: 'panels', basePrice: 12.50, minPrice: 150.00, icon: 'solar',
     presets: [12, 20, 32], presetLabels: ['12 Panels', '20 Panels', '32 Panels'],
     sliderRange: [6, 60, 2],
     desc: 'Deionised pure-water wash restoring peak solar energy output.'
   },
   fence_wall: {
+    unavailable: false,
     name: 'Fence / Retaining Wall Clean', unit: 'm²', basePrice: 4.00, minPrice: 150.00, icon: 'square',
     presets: [30, 60, 100], presetLabels: ['30m²', '60m²', '100m²'], sliderRange: [10, 200, 5],
     desc: 'Washing timber, Colorbond, or brick masonry retaining walls.'
   }
 };
-
 let currentServiceKey = 'driveway_concrete';
 let currentStep = 1;
 let lastCalculation = {};
@@ -212,17 +221,24 @@ function renderServiceCards() {
     const s = SERVICES_DATA[key];
     const card = document.createElement('button');
     card.type = 'button';
-    card.className = 'calc-service-card' + (key === currentServiceKey ? ' is-selected' : '');
+    card.className = 'calc-service-card' + (key === currentServiceKey ? ' is-selected' : '') + (s.unavailable ? ' is-disabled' : '');
     card.setAttribute('role', 'radio');
     card.setAttribute('aria-checked', key === currentServiceKey ? 'true' : 'false');
     card.innerHTML =
       '<span class="calc-service-card-icon">' + iconSvg(s.icon) + '</span>' +
-      '<span class="calc-service-card-name">' + s.name + '</span>';
-    card.addEventListener('click', function () { selectService(key); });
+      '<span class="calc-service-card-name">' + s.name + '</span>' +
+      (s.unavailable ? '<span class="calc-service-card-tag">Currently Unavailable</span>' : '');
+
+    if (s.unavailable) {
+      card.disabled = true;
+      card.setAttribute('aria-disabled', 'true');
+    } else {
+      card.addEventListener('click', function () { selectService(key); });
+    }
+
     grid.appendChild(card);
   });
 }
-
 function renderPresets(data) {
   const container = document.getElementById('presetButtons');
   if (!container) return;
@@ -518,6 +534,12 @@ function initCalculator() {
     }
   } catch (err) {
     console.warn('EmailJS init skipped:', err);
+  }
+
+    // If the default service has been switched off, start on the first available one instead
+  if (SERVICES_DATA[currentServiceKey].unavailable) {
+    const firstAvailable = Object.keys(SERVICES_DATA).find(k => !SERVICES_DATA[k].unavailable);
+    if (firstAvailable) currentServiceKey = firstAvailable;
   }
 
   renderServiceCards();

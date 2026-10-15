@@ -895,6 +895,26 @@ body {
   background-color: rgba(255, 106, 19, 0.06);
   box-shadow: 0 0 0 2px var(--color-orange);
 }
+.calc-service-card:disabled,
+.calc-service-card.is-disabled {
+  opacity: 0.55;
+  cursor: not-allowed;
+  background-color: var(--color-slate-100);
+}
+.calc-service-card:disabled:hover {
+  transform: none;
+  box-shadow: none;
+}
+.calc-service-card-tag {
+  display: block;
+  margin-top: 0.15rem;
+  font-size: 0.65rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.03em;
+  color: var(--color-slate-500);
+}
+
 .calc-service-card-icon {
   width: 2.25rem; height: 2.25rem;
   border-radius: 0.5rem;
