@@ -78,26 +78,6 @@ button {
   }
 }
 
-/* Hides the native slider handle so our own custom circle (drawn
-   further down) is the only visible handle on the before/after slider. */
-.ba-range {
-  -webkit-appearance: none;
-  appearance: none;
-  background: transparent;
-}
-.ba-range::-webkit-slider-thumb {
-  -webkit-appearance: none;
-  width: 1px;
-  height: 1px;
-  opacity: 0;
-}
-.ba-range::-moz-range-thumb {
-  width: 1px;
-  height: 1px;
-  opacity: 0;
-  border: none;
-}
-
 /* -------------------------------------------------------------
    2. DESIGN TOKENS
    The site's colors and fonts, named once and reused everywhere
@@ -471,121 +451,249 @@ body {
 }
 
 /* -------------------------------------------------------------
-   8. BEFORE / AFTER SLIDER
+   8. BEFORE / AFTER PHOTO CAROUSEL (marquee) + PHOTO VIEWER
 ------------------------------------------------------------- */
-.ba-frame {
-  position: relative;
-  width: 100%;
-  max-width: 48rem;
-  margin-left: auto;
-  margin-right: auto;
-  aspect-ratio: 4 / 3;
-  border-radius: 1rem;
+
+/* ---- The scrolling carousel ---- */
+.marquee {
+  container-type: inline-size; /* lets each photo size itself to this box (see .gallery-item) */
   overflow: hidden;
-  box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.1), 0 8px 10px -6px rgba(0, 0, 0, 0.1);
-  user-select: none;
+  padding: 0.5rem 0 2rem;      /* room so the photo shadows are not cut off */
 }
-@media (min-width: 640px) {
-  .ba-frame { aspect-ratio: 16 / 9; }
+.marquee-track { display: flex; width: max-content; }
+.marquee-set { display: flex; flex-shrink: 0; }
+
+/* Scrolling only starts once script.js has set things up (it adds .is-ready) */
+.gallery.is-ready .marquee-track {
+  animation: gallery-scroll var(--marquee-duration, 60s) linear infinite;
+}
+@keyframes gallery-scroll {
+  from { transform: translateX(0); }
+  to   { transform: translateX(-50%); }
+}
+/* Pauses on hover, keyboard focus, the Pause button, or while the viewer is open */
+.marquee:hover .marquee-track,
+.marquee:has(:focus-visible) .marquee-track,
+.gallery.is-paused .marquee-track,
+.gallery.is-lb-open .marquee-track {
+  animation-play-state: paused;
 }
 
-.ba-layer {
+/* One photo is exactly the size the old before/after slider was:
+   up to 48rem wide, 4:3 on phones, 16:9 from tablets up.
+   To show smaller photos (e.g. two at a time on desktop), lower both 48rem values. */
+.gallery-item {
+  flex: 0 0 auto;
+  margin-right: 1rem;          /* gap between photos */
+  width: min(48rem, 90vw);     /* fallback for very old browsers */
+  width: min(48rem, 100cqw);
+  aspect-ratio: 4 / 3;
+}
+@media (min-width: 640px) {
+  .gallery-item { aspect-ratio: 16 / 9; }
+}
+
+.gallery-open {
+  position: relative;
+  display: block;
+  width: 100%;
+  height: 100%;
+  padding: 0;
+  border-radius: 1rem;
+  overflow: hidden;
+  background-color: var(--color-slate-200);
+  box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.1), 0 8px 10px -6px rgba(0, 0, 0, 0.1);
+  cursor: zoom-in;
+}
+.gallery-open img {
+  display: block;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  transition: transform 300ms var(--ease);
+}
+.gallery-open:hover img { transform: scale(1.03); }
+.gallery-open:focus-visible { outline: 3px solid var(--color-orange); outline-offset: -3px; }
+
+/* Small magnifier badge (top right) so people know the photo can be enlarged */
+.gallery-open::after {
+  content: "";
   position: absolute;
+  top: 0.75rem;
+  right: 0.75rem;
+  width: 2.25rem;
+  height: 2.25rem;
+  border-radius: 9999px;
+  background-color: rgba(8, 42, 64, 0.7);
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='white' stroke-width='2' stroke-linecap='round'%3E%3Ccircle cx='11' cy='11' r='6'/%3E%3Cpath d='m20 20-4.2-4.2M11 8.5v5M8.5 11h5'/%3E%3C/svg%3E");
+  background-repeat: no-repeat;
+  background-position: center;
+  background-size: 1.2rem;
+}
+
+/* Caption along the bottom of each photo, e.g. "Before: Driveway cleaning" */
+.gallery-caption {
+  position: absolute;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  padding: 2rem 1rem 0.9rem;
+  text-align: left;
+  color: #ffffff;
+  font-size: 0.95rem;
+  font-weight: 600;
+  line-height: 1.3;
+  background-image: linear-gradient(to top, rgba(8, 42, 64, 0.85), rgba(8, 42, 64, 0));
+}
+.gallery-caption::before {
+  content: "";
+  width: 0.65rem;
+  height: 0.65rem;
+  flex-shrink: 0;
+  border-radius: 9999px;
+  background-color: var(--color-slate-300);
+}
+.gallery-item[data-type="before"] .gallery-caption::before { background-color: var(--color-orange); }
+.gallery-item[data-type="after"] .gallery-caption::before { background-color: var(--color-teal); }
+
+/* Pause button + hint under the carousel */
+.gallery-controls {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: center;
+  gap: 0.75rem 1.25rem;
+}
+.gallery-hint { font-size: 0.85rem; color: var(--color-slate-500); }
+.marquee-toggle {
+  background-color: #ffffff;
+  border: 1px solid var(--color-slate-300);
+  color: var(--color-slate-700);
+  font-size: 0.8rem;
+  font-weight: 600;
+  padding: 0.4rem 1rem;
+  border-radius: 9999px;
+  transition: background-color 150ms var(--ease);
+}
+.marquee-toggle:hover { background-color: var(--color-slate-100); }
+
+/* Without JavaScript the photos sit in a normal scrollable row */
+.gallery:not(.is-ready) .marquee { overflow-x: auto; }
+.gallery:not(.is-ready) .marquee-toggle { display: none; }
+
+/* People who asked their device for reduced motion get a still, swipeable row */
+@media (prefers-reduced-motion: reduce) {
+  .marquee { overflow-x: auto; }
+  .marquee [data-clone] { display: none; }
+  .marquee-toggle { display: none; }
+}
+
+/* ---- Photo viewer (opens when a photo is clicked) ---- */
+.lightbox {
+  position: fixed;
   inset: 0;
+  z-index: 110;
+  display: flex;
+  background-color: #051622;
+}
+.lightbox[hidden] { display: none; }
+.lightbox-dialog {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+  height: 100%;
+  color: #ffffff;
+}
+.lightbox-toolbar {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 1rem;
+  padding: 0.75rem 1rem;
+}
+.lightbox-counter { font-size: 0.9rem; color: rgba(255, 255, 255, 0.75); }
+.lightbox-tools { display: flex; align-items: center; gap: 0.5rem; }
+
+.lightbox-btn {
+  width: 2.5rem;
+  height: 2.5rem;
+  flex-shrink: 0;
   display: flex;
   align-items: center;
   justify-content: center;
-}
-.ba-after {
-  background: linear-gradient(135deg, #0FBFC4 0%, #0B9BA0 45%, #e6f7f8 100%);
-}
-.ba-after-texture {
-  width: 100%;
-  height: 100%;
-  opacity: 0.2;
-  background-image: repeating-linear-gradient(90deg, rgba(255, 255, 255, 0.7) 0 2px, transparent 2px 34px);
-}
-
-.ba-badge {
-  position: absolute;
-  top: 1rem;
-  background-color: rgba(255, 255, 255, 0.9);
-  color: var(--color-blue);
-  font-size: 0.75rem;
-  line-height: 1rem;
-  font-weight: 700;
-  padding: 0.25rem 0.75rem;
   border-radius: 9999px;
-  letter-spacing: 0.025em;
+  color: #ffffff;
+  background-color: rgba(255, 255, 255, 0.14);
+  transition: background-color 150ms var(--ease), opacity 150ms var(--ease);
 }
-.ba-badge-after { right: 1rem; }
-.ba-badge-before { left: 1rem; }
+.lightbox-btn:hover:not(:disabled) { background-color: rgba(255, 255, 255, 0.26); }
+.lightbox-btn:disabled { opacity: 0.35; cursor: not-allowed; }
+.lightbox-btn:focus-visible { outline: 2px solid var(--color-teal); outline-offset: 2px; }
+.lightbox-btn-text { width: auto; padding: 0 1rem; font-size: 0.85rem; font-weight: 600; }
 
-/* JS sets this element's inline width (0–100%) as the slider is dragged */
-.ba-before {
-  position: absolute;
-  top: 0;
-  bottom: 0;
-  left: 0;
+.lightbox-stage {
+  position: relative;
+  flex: 1;
+  min-height: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
   overflow: hidden;
-  width: 50%;
+  touch-action: none;   /* lets us handle pinch and drag ourselves */
+  cursor: zoom-in;
 }
-.ba-before-bg {
-  position: absolute;
-  inset: 0;
-  width: 200%;
-  max-width: none;
-  background: linear-gradient(135deg, #7c6a52 0%, #4d4234 45%, #8a7a5f 100%);
-}
-.ba-before-texture {
+.lightbox-stage.is-zoomed { cursor: grab; }
+.lightbox-stage.is-panning { cursor: grabbing; }
+.lightbox-img {
+  display: block;
   width: 100%;
   height: 100%;
-  opacity: 0.25;
-  background-image: radial-gradient(circle, rgba(0, 0, 0, 0.5) 1px, transparent 1.5px);
-  background-size: 14px 14px;
+  object-fit: contain;
+  user-select: none;
+  -webkit-user-select: none;
+  -webkit-user-drag: none;
+  transform-origin: center center;
+  will-change: transform;
+  transition: transform 140ms ease-out;
 }
+.lightbox-stage.is-gesture .lightbox-img { transition: none; }
 
-/* JS sets this element's inline "left" (0–100%) as the slider is dragged */
-.ba-handle {
-  position: absolute;
-  top: 0;
-  bottom: 0;
-  pointer-events: none;
-  left: 50%;
-}
-.ba-handle-line {
-  position: absolute;
-  top: 0;
-  bottom: 0;
-  width: 0.125rem;
-  background-color: #ffffff;
-  margin-left: -1px;
-}
-.ba-handle-circle {
+.lightbox-nav {
   position: absolute;
   top: 50%;
   transform: translateY(-50%);
-  margin-left: -1.25rem;
-  width: 2.5rem;
-  height: 2.5rem;
-  border-radius: 9999px;
-  background-color: #ffffff;
-  box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -4px rgba(0, 0, 0, 0.1);
-  display: flex;
+  z-index: 2;
+  width: 3rem;
+  height: 3rem;
+}
+.lightbox-nav[hidden] { display: none; }
+.lightbox-prev { left: 0.75rem; }
+.lightbox-next { right: 0.75rem; }
+
+.lightbox-footer { padding: 0.75rem 1rem 1.25rem; text-align: center; }
+.lightbox-caption {
+  display: inline-flex;
   align-items: center;
   justify-content: center;
-  color: var(--color-blue);
+  gap: 0.5rem;
+  font-size: 1.05rem;
+  font-weight: 600;
 }
-
-.ba-range {
-  position: absolute;
-  inset: 0;
-  width: 100%;
-  height: 100%;
-  margin: 0;
-  cursor: ew-resize;
+.lightbox-caption::before {
+  content: "";
+  width: 0.65rem;
+  height: 0.65rem;
+  flex-shrink: 0;
+  border-radius: 9999px;
+  background-color: var(--color-slate-300);
 }
-
+.lightbox-caption[data-type="before"]::before { background-color: var(--color-orange); }
+.lightbox-caption[data-type="after"]::before { background-color: var(--color-teal); }
+.lightbox-hint { margin-top: 0.35rem; font-size: 0.8rem; color: rgba(255, 255, 255, 0.6); }
 /* -------------------------------------------------------------
    9. TESTIMONIALS
 ------------------------------------------------------------- */

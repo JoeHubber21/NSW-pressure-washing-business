@@ -44,20 +44,336 @@ function emailJsIsConfigured() {
 }
 
 // =============================================================
-// BEFORE / AFTER SLIDER (homepage)
+// BEFORE / AFTER PHOTO CAROUSEL (homepage) + ZOOMABLE PHOTO VIEWER
+// The photos themselves live in index.html (one <li> per photo).
+// This code only makes them scroll, and opens the big viewer.
 // =============================================================
-function initBeforeAfterSlider() {
-  var range = document.getElementById('baRange');
-  var before = document.getElementById('baBefore');
-  var handle = document.getElementById('baHandle');
-  if (!range || !before || !handle) return;
 
-  function update(val) {
-    before.style.width = val + '%';
-    handle.style.left = val + '%';
+// How many seconds each photo takes to scroll past. Higher = slower.
+const GALLERY_SECONDS_PER_SLIDE = 10;
+
+let galleryItems = [];   // filled in by initGallery(), read by the viewer
+
+function initGallery() {
+  const gallery = document.getElementById('gallery');
+  if (!gallery) return;
+
+  const marquee = gallery.querySelector('.marquee');
+  const track = gallery.querySelector('.marquee-track');
+  const firstSet = gallery.querySelector('.marquee-set');
+  const toggleBtn = document.getElementById('marqueeToggle');
+  const originals = Array.from(firstSet.querySelectorAll('.gallery-item'));
+  if (!originals.length) return;
+
+  // 1. Read each photo once, so the viewer knows what to show
+  galleryItems = originals.map(function (li, i) {
+    li.dataset.index = i;
+    const img = li.querySelector('img');
+    const cap = li.querySelector('.gallery-caption');
+    return {
+      src: li.dataset.full || img.src,
+      alt: img.alt,
+      caption: cap ? cap.textContent.trim() : img.alt,
+      type: li.dataset.type || ''
+    };
+  });
+
+  // Copies are only for the endless-loop effect: hidden from screen readers and the Tab key
+  function markAsCopy(el) {
+    el.setAttribute('data-clone', '');
+    el.setAttribute('aria-hidden', 'true');
+    el.querySelectorAll('button').forEach(function (b) { b.tabIndex = -1; });
   }
-  range.addEventListener('input', function (e) { update(e.target.value); });
-  update(range.value);
+
+  // 2. Make the loop: fill the row if there are very few photos,
+  //    then add a second identical row so the scroll never shows a gap.
+  function rebuild() {
+    gallery.querySelectorAll('[data-clone]').forEach(function (n) { n.remove(); });
+
+    let guard = 0;
+    while (firstSet.scrollWidth < marquee.clientWidth && guard < 10) {
+      originals.forEach(function (li) {
+        const copy = li.cloneNode(true);
+        markAsCopy(copy);
+        firstSet.appendChild(copy);
+      });
+      guard++;
+    }
+
+    const secondSet = firstSet.cloneNode(true);
+    secondSet.querySelectorAll('.gallery-item').forEach(markAsCopy);
+    markAsCopy(secondSet);
+    track.appendChild(secondSet);
+
+    track.style.setProperty('--marquee-duration', (firstSet.children.length * GALLERY_SECONDS_PER_SLIDE) + 's');
+  }
+
+  rebuild();
+  gallery.classList.add('is-ready');
+
+  let lastWidth = marquee.clientWidth;
+  let resizeTimer;
+  window.addEventListener('resize', function () {
+    clearTimeout(resizeTimer);
+    resizeTimer = setTimeout(function () {
+      if (marquee.clientWidth !== lastWidth) {
+        lastWidth = marquee.clientWidth;
+        rebuild();
+      }
+    }, 250);
+  });
+
+  // 3. Clicking any photo (including the looped copies) opens the viewer
+  marquee.addEventListener('click', function (e) {
+    const li = e.target.closest('.gallery-item');
+    if (!li) return;
+    openLightbox(parseInt(li.dataset.index, 10), li.querySelector('button'));
+  });
+
+  // 4. Pause / Play button
+  if (toggleBtn) {
+    toggleBtn.addEventListener('click', function () {
+      const paused = gallery.classList.toggle('is-paused');
+      toggleBtn.textContent = paused ? 'Play' : 'Pause';
+      toggleBtn.setAttribute('aria-label', paused ? 'Resume photo scrolling' : 'Pause photo scrolling');
+    });
+  }
+}
+
+// =============================================================
+// PHOTO VIEWER (lightbox) with zoom
+// Zoom: + / - buttons, mouse wheel, pinch, double-click / double-tap.
+// Move around when zoomed: drag, or arrow keys.
+// =============================================================
+const LB_MAX_SCALE = 5;
+const lb = { index: 0, scale: 1, x: 0, y: 0, lastFocus: null, pointers: new Map(), pan: null, pinch: null, lastTap: null };
+let lbEl, lbStage, lbImg, lbCaption, lbCounter, lbZoomIn, lbZoomOut, lbReset, lbPrev, lbNext;
+
+function initLightbox() {
+  lbEl = document.getElementById('lightbox');
+  if (!lbEl) return;
+  lbStage = document.getElementById('lightboxStage');
+  lbImg = document.getElementById('lightboxImg');
+  lbCaption = document.getElementById('lightboxCaption');
+  lbCounter = document.getElementById('lightboxCounter');
+  lbZoomIn = document.getElementById('lightboxZoomIn');
+  lbZoomOut = document.getElementById('lightboxZoomOut');
+  lbReset = document.getElementById('lightboxReset');
+  lbPrev = document.getElementById('lightboxPrev');
+  lbNext = document.getElementById('lightboxNext');
+
+  document.getElementById('lightboxClose').addEventListener('click', closeLightbox);
+  lbZoomIn.addEventListener('click', function () { lbZoomBy(1.5); });
+  lbZoomOut.addEventListener('click', function () { lbZoomBy(1 / 1.5); });
+  lbReset.addEventListener('click', function () { lb.scale = 1; lb.x = 0; lb.y = 0; lbApply(); });
+  lbPrev.addEventListener('click', function () { showLightboxImage(lb.index - 1); });
+  lbNext.addEventListener('click', function () { showLightboxImage(lb.index + 1); });
+
+  lbImg.addEventListener('load', lbApply);
+  lbImg.addEventListener('dragstart', function (e) { e.preventDefault(); });
+  window.addEventListener('resize', function () { if (!lbEl.hidden) lbApply(); });
+
+  lbStage.addEventListener('wheel', onLightboxWheel, { passive: false });
+  lbStage.addEventListener('pointerdown', onLightboxPointerDown);
+  lbStage.addEventListener('pointermove', onLightboxPointerMove);
+  lbStage.addEventListener('pointerup', onLightboxPointerUp);
+  lbStage.addEventListener('pointercancel', onLightboxPointerUp);
+}
+
+function openLightbox(index, trigger) {
+  if (!lbEl || !galleryItems.length) return;
+  lb.lastFocus = trigger || document.activeElement;
+  lbEl.hidden = false;
+  document.body.style.overflow = 'hidden';
+  const gallery = document.getElementById('gallery');
+  if (gallery) gallery.classList.add('is-lb-open');
+  showLightboxImage(index);
+  document.addEventListener('keydown', onLightboxKey);
+  document.getElementById('lightboxClose').focus();
+}
+
+function closeLightbox() {
+  if (!lbEl || lbEl.hidden) return;
+  lbEl.hidden = true;
+  document.body.style.overflow = '';
+  const gallery = document.getElementById('gallery');
+  if (gallery) gallery.classList.remove('is-lb-open');
+  document.removeEventListener('keydown', onLightboxKey);
+  lb.pointers.clear();
+  lb.pan = null;
+  lb.pinch = null;
+  lbStage.classList.remove('is-gesture', 'is-panning');
+  if (lb.lastFocus && typeof lb.lastFocus.focus === 'function') lb.lastFocus.focus();
+}
+
+function showLightboxImage(i) {
+  const n = galleryItems.length;
+  lb.index = (i + n) % n;
+  const item = galleryItems[lb.index];
+  lb.scale = 1; lb.x = 0; lb.y = 0;
+  lbImg.src = item.src;
+  lbImg.alt = item.alt;
+  lbCaption.textContent = item.caption;
+  lbCaption.setAttribute('data-type', item.type);
+  lbCounter.textContent = (lb.index + 1) + ' / ' + n;
+  lbPrev.hidden = lbNext.hidden = n < 2;
+  lbApply();
+}
+
+// ---- zoom maths ----
+// The size the photo is drawn at when not zoomed (it "fits" inside the viewer)
+function lbFit() {
+  const sw = lbStage.clientWidth, sh = lbStage.clientHeight;
+  const nw = lbImg.naturalWidth || sw, nh = lbImg.naturalHeight || sh;
+  const k = Math.min(sw / nw, sh / nh);
+  return { w: nw * k, h: nh * k, sw: sw, sh: sh };
+}
+// How far the zoomed photo may be dragged before its edge would leave the screen
+function lbLimits() {
+  const f = lbFit();
+  return {
+    x: Math.max(0, (f.w * lb.scale - f.sw) / 2),
+    y: Math.max(0, (f.h * lb.scale - f.sh) / 2)
+  };
+}
+function lbApply() {
+  if (!lbEl || lbEl.hidden) return;
+  const lim = lbLimits();
+  lb.x = Math.min(lim.x, Math.max(-lim.x, lb.x));
+  lb.y = Math.min(lim.y, Math.max(-lim.y, lb.y));
+  lbImg.style.transform = 'translate(' + lb.x + 'px, ' + lb.y + 'px) scale(' + lb.scale + ')';
+  const zoomed = lb.scale > 1.001;
+  lbStage.classList.toggle('is-zoomed', zoomed);
+  lbZoomOut.disabled = !zoomed;
+  lbReset.disabled = !zoomed;
+  lbZoomIn.disabled = lb.scale >= LB_MAX_SCALE - 0.001;
+}
+// Zoom to newScale, keeping the point (clientX, clientY) under the finger/cursor
+function lbZoomAt(newScale, clientX, clientY) {
+  newScale = Math.min(LB_MAX_SCALE, Math.max(1, newScale));
+  const r = lbStage.getBoundingClientRect();
+  const px = clientX - (r.left + r.width / 2);
+  const py = clientY - (r.top + r.height / 2);
+  const ratio = newScale / lb.scale;
+  lb.x = px - ratio * (px - lb.x);
+  lb.y = py - ratio * (py - lb.y);
+  lb.scale = newScale;
+  if (newScale === 1) { lb.x = 0; lb.y = 0; }
+  lbApply();
+}
+function lbZoomBy(factor) {
+  const r = lbStage.getBoundingClientRect();
+  lbZoomAt(lb.scale * factor, r.left + r.width / 2, r.top + r.height / 2);
+}
+function lbPointIsOnPhoto(clientX, clientY) {
+  const r = lbStage.getBoundingClientRect();
+  const f = lbFit();
+  const px = clientX - (r.left + r.width / 2) - lb.x;
+  const py = clientY - (r.top + r.height / 2) - lb.y;
+  return Math.abs(px) <= (f.w * lb.scale) / 2 && Math.abs(py) <= (f.h * lb.scale) / 2;
+}
+
+// ---- mouse wheel ----
+function onLightboxWheel(e) {
+  e.preventDefault();
+  const delta = e.deltaMode === 1 ? e.deltaY * 33 : e.deltaY;
+  lbZoomAt(lb.scale * Math.exp(-delta * 0.0025), e.clientX, e.clientY);
+}
+
+// ---- drag to move, pinch to zoom, double-tap to zoom ----
+function lbDistance(a, b) { return Math.hypot(a.x - b.x, a.y - b.y); }
+
+function onLightboxPointerDown(e) {
+  try { lbStage.setPointerCapture(e.pointerId); } catch (err) { /* fine to ignore */ }
+  lb.pointers.set(e.pointerId, { x: e.clientX, y: e.clientY });
+  lbStage.classList.add('is-gesture');
+  if (lb.pointers.size === 1) {
+    lb.pan = { startX: e.clientX, startY: e.clientY, x: lb.x, y: lb.y, moved: false };
+  } else if (lb.pointers.size === 2) {
+    const pts = Array.from(lb.pointers.values());
+    lb.pinch = { dist: lbDistance(pts[0], pts[1]), scale: lb.scale };
+    lb.pan = null;
+  }
+}
+
+function onLightboxPointerMove(e) {
+  if (!lb.pointers.has(e.pointerId)) return;
+  lb.pointers.set(e.pointerId, { x: e.clientX, y: e.clientY });
+
+  if (lb.pointers.size === 2 && lb.pinch) {
+    const pts = Array.from(lb.pointers.values());
+    const d = lbDistance(pts[0], pts[1]);
+    if (lb.pinch.dist > 0) {
+      lbZoomAt(lb.pinch.scale * (d / lb.pinch.dist), (pts[0].x + pts[1].x) / 2, (pts[0].y + pts[1].y) / 2);
+    }
+  } else if (lb.pan && lb.pointers.size === 1) {
+    const dx = e.clientX - lb.pan.startX;
+    const dy = e.clientY - lb.pan.startY;
+    if (Math.abs(dx) + Math.abs(dy) > 6) lb.pan.moved = true;
+    if (lb.scale > 1.001 && lb.pan.moved) {
+      lb.x = lb.pan.x + dx;
+      lb.y = lb.pan.y + dy;
+      lbStage.classList.add('is-panning');
+      lbApply();
+    }
+  }
+}
+
+function onLightboxPointerUp(e) {
+  const wasTap = e.type === 'pointerup' && lb.pointers.size === 1 && lb.pan && !lb.pan.moved;
+  lb.pointers.delete(e.pointerId);
+  try { lbStage.releasePointerCapture(e.pointerId); } catch (err) { /* fine to ignore */ }
+
+  if (lb.pointers.size < 2) lb.pinch = null;
+  if (lb.pointers.size === 1) {
+    // one finger left after a pinch: carry on dragging from where it is
+    const p = Array.from(lb.pointers.values())[0];
+    lb.pan = { startX: p.x, startY: p.y, x: lb.x, y: lb.y, moved: true };
+  }
+  if (lb.pointers.size === 0) {
+    lb.pan = null;
+    lbStage.classList.remove('is-gesture', 'is-panning');
+  }
+  if (wasTap) onLightboxTap(e);
+}
+
+function onLightboxTap(e) {
+  const now = Date.now();
+  const last = lb.lastTap;
+  if (last && now - last.t < 320 && Math.abs(e.clientX - last.x) < 30 && Math.abs(e.clientY - last.y) < 30) {
+    lb.lastTap = null;
+    lbZoomAt(lb.scale > 1.001 ? 1 : 2.5, e.clientX, e.clientY);   // double-tap: zoom in / back out
+    return;
+  }
+  lb.lastTap = { t: now, x: e.clientX, y: e.clientY };
+  // a single tap on the dark area around the photo closes the viewer
+  if (lb.scale <= 1.001 && !lbPointIsOnPhoto(e.clientX, e.clientY)) closeLightbox();
+}
+
+// ---- keyboard ----
+function onLightboxKey(e) {
+  const zoomed = lb.scale > 1.001;
+  switch (e.key) {
+    case 'Escape': closeLightbox(); break;
+    case 'ArrowLeft':  if (zoomed) { lb.x += 80; lbApply(); } else showLightboxImage(lb.index - 1); break;
+    case 'ArrowRight': if (zoomed) { lb.x -= 80; lbApply(); } else showLightboxImage(lb.index + 1); break;
+    case 'ArrowUp':    if (zoomed) { lb.y += 80; lbApply(); } break;
+    case 'ArrowDown':  if (zoomed) { lb.y -= 80; lbApply(); } break;
+    case '+': case '=': lbZoomBy(1.5); break;
+    case '-': case '_': lbZoomBy(1 / 1.5); break;
+    case '0': lb.scale = 1; lb.x = 0; lb.y = 0; lbApply(); break;
+    case 'Tab': {
+      // keep keyboard focus inside the viewer while it is open
+      const focusables = lbEl.querySelectorAll('button:not([disabled]):not([hidden])');
+      if (!focusables.length) break;
+      const first = focusables[0], last = focusables[focusables.length - 1];
+      if (e.shiftKey && document.activeElement === first) { e.preventDefault(); last.focus(); }
+      else if (!e.shiftKey && document.activeElement === last) { e.preventDefault(); first.focus(); }
+      return;
+    }
+    default: return;
+  }
+  e.preventDefault();
 }
 
 // =============================================================
@@ -575,7 +891,8 @@ function initCalculator() {
 }
 
 function initSite() {
-  initBeforeAfterSlider();
+  initGallery();
+  initLightbox();
   initCalculator();
 }
 

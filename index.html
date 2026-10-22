@@ -216,56 +216,105 @@
       </div>
     </section>
 
-    <!-- =========================================================
-         BEFORE / AFTER
-         Drag the handle to compare. Swap the two gradient panels
-         below for your own real "before" and "after" photos when
-         you have them — see the comments marked PHOTO GOES HERE.
+        <!-- =========================================================
+         BEFORE / AFTER PHOTO CAROUSEL
+         Photos scroll across automatically. Clicking one opens a big,
+         zoomable view.
+
+         HOW TO ADD A PHOTO
+           1. Put the image file in the images/gallery/ folder.
+           2. Copy one whole <li> ... </li> block below and paste it
+              where you want it (anywhere before the closing </ul>).
+           3. Change 4 things in your copy: the file name in src="",
+              the alt="" description, data-type ("before" or "after"),
+              and the caption text.
+
+         HOW TO REMOVE A PHOTO
+           Delete its whole <li> ... </li> block (and the image file).
+
+         Photos appear left to right in the order listed here. Keep each
+         Before next to its After. Best image size: 1600 x 900 px (16:9),
+         JPG or WebP, under 300 KB. File names are case-sensitive.
     ========================================================== -->
     <section class="before-after">
       <div class="container">
         <div class="section-heading section-heading--tight">
           <h2 class="section-title">See the Difference</h2>
-          <p class="section-subtitle">Drag the slider to see a driveway before and after our clean.</p>
+          <p class="section-subtitle">Real results from jobs we've completed. Tap any photo to enlarge and zoom in.</p>
         </div>
 
-        <div class="ba-frame" id="baSlider">
+        <div class="gallery" id="gallery">
+          <div class="marquee" role="region" aria-label="Before and after photos of our work">
+            <div class="marquee-track">
+              <ul class="marquee-set">
 
-          <!-- AFTER layer (fills the whole frame) -->
-          <div class="ba-layer ba-after">
-            <!-- PHOTO GOES HERE: replace this div's background with your real "after" photo -->
-            <span class="ba-badge ba-badge-after">AFTER</span>
-            <div class="ba-after-texture"></div>
-          </div>
+                <!-- Job 1: Driveway -->
+                <li class="gallery-item" data-type="before">
+                  <button type="button" class="gallery-open" aria-haspopup="dialog">
+                    <img src="driveway-before.jpg" alt="Concrete driveway before cleaning, covered in mould, algae and oil stains" width="1280" height="720" loading="lazy" decoding="async">
+                    <span class="gallery-caption">Before: Driveway cleaning</span>
+                  </button>
+                </li>
+                <li class="gallery-item" data-type="after">
+                  <button type="button" class="gallery-open" aria-haspopup="dialog">
+                    <img src="driveway-after.jpg" alt="The same concrete driveway after pressure cleaning, clean and light grey" width="1280" height="720" loading="lazy" decoding="async">
+                    <span class="gallery-caption">After: Driveway cleaning</span>
+                  </button>
+                </li>
 
-          <!-- BEFORE layer (clipped to slider width) -->
-          <div class="ba-before" id="baBefore">
-            <div class="ba-before-bg">
-              <!-- PHOTO GOES HERE: replace this div's background with your real "before" photo -->
-              <div class="ba-before-texture"></div>
+                <!-- Job 2: House wash -->
+                <li class="gallery-item" data-type="before">
+                  <button type="button" class="gallery-open" aria-haspopup="dialog">
+                    <img src="house-wash-before.jpg" alt="House weatherboards before washing, streaked with green algae and grime" width="1280" height="720" loading="lazy" decoding="async">
+                    <span class="gallery-caption">Before: House wash</span>
+                  </button>
+                </li>
+                <li class="gallery-item" data-type="after">
+                  <button type="button" class="gallery-open" aria-haspopup="dialog">
+                    <img src="house-wash-after.jpg" alt="House weatherboards after a soft wash, clean and bright" width="1280" height="720" loading="lazy" decoding="async">
+                    <span class="gallery-caption">After: House wash</span>
+                  </button>
+                </li>
+
+                <!-- Job 3: Roof -->
+                <li class="gallery-item" data-type="before">
+                  <button type="button" class="gallery-open" aria-haspopup="dialog">
+                    <img src="roof-before.jpg" alt="Tiled roof before cleaning, covered in moss and black algae" width="1280" height="720" loading="lazy" decoding="async">
+                    <span class="gallery-caption">Before: Roof cleaning</span>
+                  </button>
+                </li>
+                <li class="gallery-item" data-type="after">
+                  <button type="button" class="gallery-open" aria-haspopup="dialog">
+                    <img src="roof-after.jpg" alt="Tiled roof after cleaning, clean terracotta tiles" width="1280" height="720" loading="lazy" decoding="async">
+                    <span class="gallery-caption">After: Roof cleaning</span>
+                  </button>
+                </li>
+
+                <!-- Job 4: Deck -->
+                <li class="gallery-item" data-type="before">
+                  <button type="button" class="gallery-open" aria-haspopup="dialog">
+                    <img src="deck-before.jpg" alt="Timber deck before cleaning, grey and stained with mould" width="1280" height="720" loading="lazy" decoding="async">
+                    <span class="gallery-caption">Before: Deck cleaning</span>
+                  </button>
+                </li>
+                <li class="gallery-item" data-type="after">
+                  <button type="button" class="gallery-open" aria-haspopup="dialog">
+                    <img src="deck-after.jpg" alt="Timber deck after cleaning, warm and clean timber" width="1280" height="720" loading="lazy" decoding="async">
+                    <span class="gallery-caption">After: Deck cleaning</span>
+                  </button>
+                </li>
+
+              </ul>
             </div>
-            <span class="ba-badge ba-badge-before">BEFORE</span>
           </div>
 
-          <!-- Handle -->
-          <div id="baHandle" class="ba-handle">
-            <div class="ba-handle-line"></div>
-            <div class="ba-handle-circle">
-              <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="icon icon-sm">
-                <path d="M8 8l-4 4 4 4"/>
-                <path d="M16 8l4 4-4 4"/>
-              </svg>
-            </div>
+          <div class="gallery-controls">
+            <button type="button" class="marquee-toggle" id="marqueeToggle" aria-label="Pause photo scrolling">Pause</button>
+            <p class="gallery-hint">Click any photo to enlarge it, then zoom in to see the detail.</p>
           </div>
-
-          <!-- Actual control (invisible, spans the whole frame) -->
-          <input type="range" min="0" max="100" value="50" id="baRange"
-                 class="ba-range"
-                 aria-label="Drag to compare before and after" />
         </div>
       </div>
     </section>
-
     <!-- =========================================================
          TESTIMONIALS
          Swap in real customer reviews and names as you collect them.
@@ -691,6 +740,48 @@
         Quote copied to clipboard!
       </div>
 
+    </div>
+  </div>
+
+    <!-- =========================================================
+       PHOTO VIEWER (lightbox)
+       Opens when a photo in the carousel is clicked. Zoom with the
+       + / - buttons, mouse wheel, pinch, or double-click / double-tap.
+  ========================================================== -->
+  <div id="lightbox" class="lightbox" hidden>
+    <div class="lightbox-dialog" role="dialog" aria-modal="true" aria-label="Photo viewer">
+
+      <div class="lightbox-toolbar">
+        <span id="lightboxCounter" class="lightbox-counter" aria-live="polite"></span>
+        <div class="lightbox-tools">
+          <button type="button" id="lightboxZoomOut" class="lightbox-btn" aria-label="Zoom out">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="icon icon-sm" aria-hidden="true"><path d="M5 12h14"/></svg>
+          </button>
+          <button type="button" id="lightboxReset" class="lightbox-btn lightbox-btn-text" aria-label="Reset zoom">Reset</button>
+          <button type="button" id="lightboxZoomIn" class="lightbox-btn" aria-label="Zoom in">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="icon icon-sm" aria-hidden="true"><path d="M12 5v14M5 12h14"/></svg>
+          </button>
+          <button type="button" id="lightboxClose" class="lightbox-btn" aria-label="Close photo viewer">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="icon icon-sm" aria-hidden="true"><path d="M6 6l12 12M18 6 6 18"/></svg>
+          </button>
+        </div>
+      </div>
+
+      <div id="lightboxStage" class="lightbox-stage">
+        <img id="lightboxImg" class="lightbox-img" alt="" draggable="false" />
+      </div>
+
+      <button type="button" id="lightboxPrev" class="lightbox-btn lightbox-nav lightbox-prev" aria-label="Previous photo">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="icon icon-sm" aria-hidden="true"><path d="M15 6l-6 6 6 6"/></svg>
+      </button>
+      <button type="button" id="lightboxNext" class="lightbox-btn lightbox-nav lightbox-next" aria-label="Next photo">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="icon icon-sm" aria-hidden="true"><path d="M9 6l6 6-6 6"/></svg>
+      </button>
+
+      <div class="lightbox-footer">
+        <p id="lightboxCaption" class="lightbox-caption"></p>
+        <p class="lightbox-hint">Scroll, pinch or double-tap to zoom. Drag to move around.</p>
+      </div>
     </div>
   </div>
 
