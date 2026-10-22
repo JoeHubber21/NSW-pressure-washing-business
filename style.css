@@ -472,7 +472,7 @@ body {
   to   { transform: translateX(-50%); }
 }
 /* Pauses on hover, keyboard focus, the Pause button, or while the viewer is open */
-.marquee:hover .marquee-track,
+.marquee-card:hover .marquee-track,
 .marquee:has(:focus-visible) .marquee-track,
 .gallery.is-paused .marquee-track,
 .gallery.is-lb-open .marquee-track {
